@@ -1,32 +1,27 @@
 import { useEffect, useState } from "react";
-import { auth } from "../firebase";
-import { onAuthStateChanged } from "firebase/auth";
+import { checkAccess } from "../utils/checkAccess";
 
 export default function ProtectedRoute({ children }) {
-  const [loading, setLoading] = useState(true);
-  const [authenticated, setAuthenticated] = useState(false);
+  const [allowed, setAllowed] = useState(null);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setAuthenticated(!!user);
-      setLoading(false);
-    });
+    const run = async () => {
+      const ok = await checkAccess();
+      setAllowed(ok);
+    };
 
-    return () => unsubscribe();
+    run();
   }, []);
 
-  if (loading) {
-    return (
-      <div className="page-loader">
-        Loading...
-      </div>
-    );
+  if (allowed === null) {
+    return <div className="container">Checking access...</div>;
   }
 
-  if (!authenticated) {
+  if (!allowed) {
     return (
-      <div className="page-loader">
-        Please login first.
+      <div className="container">
+        <h2>❌ Access denied or expired</h2>
+        <p>Please contact admin or complete payment.</p>
       </div>
     );
   }
