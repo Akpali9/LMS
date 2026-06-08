@@ -1,0 +1,65 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn() &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin";
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // USERS
+    match /users/{userId} {
+      allow read: if isOwner(userId) || isAdmin();
+
+      allow create: if isSignedIn();
+
+      allow update: if isOwner(userId) || isAdmin();
+    }
+
+    // COURSES
+    match /courses/{courseId} {
+      allow read: if isSignedIn();
+
+      allow write: if isAdmin();
+    }
+
+    // MODULE PROGRESS
+    match /progress/{docId} {
+      allow read, write: if isSignedIn();
+    }
+
+    // ASSIGNMENTS
+    match /assignments/{id} {
+      allow create: if isSignedIn();
+
+      allow read: if isAdmin() || isOwner(resource.data.uid);
+
+      allow update: if isAdmin();
+    }
+
+    // PAYMENTS
+    match /payments/{id} {
+      allow create: if isSignedIn();
+
+      allow read: if isAdmin() || isOwner(resource.data.uid);
+
+      allow update: if isAdmin();
+    }
+
+    // CERTIFICATES
+    match /certificates/{id} {
+      allow read: if isAdmin() || isOwner(resource.data.uid);
+
+      allow write: if isAdmin();
+    }
+  }
+}
