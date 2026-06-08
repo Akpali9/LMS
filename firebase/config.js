@@ -7,7 +7,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyAsjzB6f-5Uth_ZcQFbjq-0MiSZi9wmVA0",
   authDomain: "pruta-f590c.firebaseapp.com",
   projectId: "pruta-f590c",
-  storageBucket: "pruta-f590c.firebasestorage.app",
+  storageBucket: "pruta-f590c.appspot.com",
   messagingSenderId: "839009218719",
   appId: "1:839009218719:web:82a28d8d5960ad0559b2aa",
   measurementId: "G-2KSG3JW9JN"
