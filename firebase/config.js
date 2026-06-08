@@ -4,12 +4,13 @@ import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "YOUR_KEY",
-  authDomain: "YOUR_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_BUCKET",
-  messagingSenderId: "XXXX",
-  appId: "XXXX"
+  apiKey: "AIzaSyAsjzB6f-5Uth_ZcQFbjq-0MiSZi9wmVA0",
+  authDomain: "pruta-f590c.firebaseapp.com",
+  projectId: "pruta-f590c",
+  storageBucket: "pruta-f590c.firebasestorage.app",
+  messagingSenderId: "839009218719",
+  appId: "1:839009218719:web:82a28d8d5960ad0559b2aa",
+  measurementId: "G-2KSG3JW9JN"
 };
 
 const app = initializeApp(firebaseConfig);
